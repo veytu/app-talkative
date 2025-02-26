@@ -1,0 +1,99 @@
+.app-talkative-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.app-talkative-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.app-talkative-footer {
+  box-sizing: border-box;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  color: #191919;
+  background: #ebecfa;
+  justify-content: center;
+}
+
+.app-talkative-footer > span {
+  font-size: 14px;
+  color: rgb(141, 143, 166);
+  user-select: none;
+  white-space: nowrap;
+  word-break: keep-all;
+}
+
+/* .telebox-color-scheme-dark .app-talkative-footer {
+  color: #a6a6a8;
+  background: #2d2d33;
+  border-top: none;
+} */
+
+.app-talkative-page {
+  font-variant-numeric: tabular-nums;
+}
+
+.app-talkative-btn {
+  box-sizing: border-box;
+  width: 26px;
+  height: 26px;
+  font-size: 0;
+  margin: 0;
+  padding: 3px;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  color: currentColor;
+  background: transparent;
+  transition: background 0.4s;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  color: #8d8fa6;
+}
+
+.app-talkative-btn:hover {
+  background-color: rgba(27, 31, 77, 0.04);
+}
+
+@media (hover: none) {
+  .app-talkative-btn:hover {
+    background: transparent !important;
+  }
+}
+
+.app-talkative-btn .arrow {
+  fill: #8d8fa6;
+}
+
+.app-talkative-btn > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.app-talkative-btn > svg:nth-of-type(2) {
+  display: none;
+}
+
+.app-talkative-footer-btn-disable {
+  color: rgba(198, 199, 210, 1);
+  cursor: not-allowed;
+}
+.app-talkative-footer-btn-disable .arrow {
+  fill: rgba(198, 199, 210, 1);
+}
+
+.telebox-color-scheme-dark .app-talkative-container {
+  color: #eee;
+}
