@@ -1,4 +1,4 @@
-import type { AppContext } from "@netless/window-manager";
+import type { AppContext, ReadonlyTeleBox } from "@netless/window-manager";
 import { SideEffectManager } from "side-effect-manager";
 import { append, attr, detach, element, writable } from "./utils";
 import { arrowLeftSVG } from "./icons/arrow-left";
@@ -6,7 +6,7 @@ import { arrowRightSVG } from "./icons/arrow-right";
 
 export class Footer {
   readonly sideEffect = new SideEffectManager();
-  readonly box = this.context.getBox();
+  readonly box: ReadonlyTeleBox;
   readonly role = writable<0 | 2>(2);
   readonly text = writable("...");
   readonly $footer = element("div");
@@ -19,6 +19,7 @@ export class Footer {
     readonly onPrev: () => void,
     readonly onNext: () => void
   ) {
+    this.box = context.getBox();
     append(this.$footer, this.$btnLeft);
     append(this.$footer, this.$span);
     append(this.$footer, this.$btnRight);

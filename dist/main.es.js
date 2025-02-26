@@ -1038,11 +1038,11 @@ class Renderer {
   constructor(context) {
     this.context = context;
     this.sideEffect = new SideEffectManager();
-    this.box = this.context.getBox();
     this.role = writable(2);
     this.ratio = writable(16 / 9);
     this.$content = element("div");
     this.$iframe = element("iframe");
+    this.box = context.getBox();
     attr(this.$content, "class", "app-talkative-container");
     append(this.$content, this.$iframe);
     this.$content.dataset.appKind = "Talkative";
@@ -1123,13 +1123,13 @@ class Footer {
     this.onPrev = onPrev;
     this.onNext = onNext;
     this.sideEffect = new SideEffectManager();
-    this.box = this.context.getBox();
     this.role = writable(2);
     this.text = writable("...");
     this.$footer = element("div");
     this.$btnLeft = element("button");
     this.$btnRight = element("button");
     this.$span = element("span");
+    this.box = context.getBox();
     append(this.$footer, this.$btnLeft);
     append(this.$footer, this.$span);
     append(this.$footer, this.$btnRight);
