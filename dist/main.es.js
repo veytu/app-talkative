@@ -466,7 +466,8 @@ function getUserPayload(context) {
   const uid = (userPayload == null ? void 0 : userPayload.uid) || (room == null ? void 0 : room.uid) || "";
   const nickName = (userPayload == null ? void 0 : userPayload.nickName) || uid;
   const userId = (userPayload == null ? void 0 : userPayload.userId) || uid;
-  return { memberId, uid, userId, nickName };
+  const cursorName = (userPayload == null ? void 0 : userPayload.cursorName) || nickName || "";
+  return { memberId, uid, userId, nickName, cursorName };
 }
 function parse(url) {
   const index = url.indexOf("?", 1);
@@ -1180,6 +1181,7 @@ function connect(_a) {
       callbacks2.postMessage(JSON.stringify({ method: "onJumpPage", toPage: page }));
     },
     onLocalMessage(event) {
+      console.log("onlocalmessage", context.getIsWritable());
       if (context.getIsWritable()) {
         (callbacks2 == null ? void 0 : callbacks2.onLocalMessage) && callbacks2.onLocalMessage(context.appId, event);
       }
@@ -1229,10 +1231,10 @@ const Talkative = {
       pageNum: 1,
       lastMsg: ""
     });
-    const ClickThroughAppliances = /* @__PURE__ */ new Set(["clicker", "hand"]);
+    const ClickThroughAppliances = /* @__PURE__ */ new Set(["clicker"]);
     const { onLocalMessage, debug } = context.getAppOptions() || {};
     const logger = new Logger("Talkative", debug);
-    const { uid, userId, nickName } = getUserPayload(context);
+    const { uid, userId, nickName, cursorName } = getUserPayload(context);
     const sideEffect = new SideEffectManager();
     const view = context.getView();
     const room = context.getRoom();
@@ -1303,7 +1305,7 @@ const Talkative = {
       sideEffect.addDisposer(renderer.mount());
       sideEffect.addDisposer(footer.mount());
       const role = context.storage.state.uid === uid ? 0 : 2;
-      const query = `userid=${userId}&role=${role}&name=${nickName}`;
+      const query = `userid=${userId}&role=${role}&name=${(cursorName == null ? void 0 : cursorName.length) > 0 ? cursorName : nickName}`;
       renderer.$iframe.src = appendQuery(context.storage.state.src, query);
       renderer.role.set(role);
       footer.role.set(role);

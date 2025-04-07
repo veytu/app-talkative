@@ -4,6 +4,7 @@ export interface UserPayload {
     uid: string;
     userId: string;
     nickName: string;
+    cursorName: string;
 }
 export declare function getUserPayload(context: AppContext): UserPayload;
 export declare function parse(url: string): {

@@ -5,6 +5,7 @@ export interface UserPayload {
   uid: string;
   userId: string;
   nickName: string;
+  cursorName: string;
 }
 
 export function getUserPayload(context: AppContext): UserPayload {
@@ -17,7 +18,8 @@ export function getUserPayload(context: AppContext): UserPayload {
   const uid = userPayload?.uid || room?.uid || "";
   const nickName = userPayload?.nickName || uid;
   const userId = userPayload?.userId || uid;
-  return { memberId, uid, userId, nickName };
+  const cursorName = userPayload?.cursorName || nickName || "";
+  return { memberId, uid, userId, nickName, cursorName };
 }
 
 // from @polka/url (https://github.com/lukeed/polka, MIT license)

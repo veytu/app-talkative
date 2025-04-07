@@ -38,12 +38,12 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
       pageNum: 1,
       lastMsg: "",
     });
-    const ClickThroughAppliances = new Set(["clicker", "hand"]);
+    const ClickThroughAppliances = new Set(["clicker"]);
 
     // const debug = (context.getAppOptions() || {}).debug;
     const { onLocalMessage, debug } = (context.getAppOptions() || {}) as TalkativeOptions;
     const logger = new Logger("Talkative", debug);
-    const { uid, userId, nickName } = getUserPayload(context);
+    const { uid, userId, nickName, cursorName } = getUserPayload(context);
     const sideEffect = new SideEffectManager();
     const view = context.getView();
     const room = context.getRoom();
@@ -130,7 +130,9 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
       sideEffect.addDisposer(footer.mount());
 
       const role = context.storage.state.uid === uid ? 0 : 2;
-      const query = `userid=${userId}&role=${role}&name=${nickName}`;
+      const query = `userid=${userId}&role=${role}&name=${
+        cursorName?.length > 0 ? cursorName : nickName
+      }`;
       renderer.$iframe.src = appendQuery(context.storage.state.src, query);
 
       renderer.role.set(role);

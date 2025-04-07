@@ -37,6 +37,7 @@ export function connect({ context, logger, ...callbacks }: ConnectParams): () =>
       callbacks.postMessage(JSON.stringify({ method: "onJumpPage", toPage: page }));
     },
     onLocalMessage(event: Record<string, unknown>) {
+      console.log("onlocalmessage", context.getIsWritable());
       if (context.getIsWritable()) {
         callbacks?.onLocalMessage && callbacks.onLocalMessage(context.appId, event);
       }
