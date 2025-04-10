@@ -49,7 +49,6 @@ export function connect({ context, logger, ...callbacks }: ConnectParams): () =>
         // save last message
         const lastMsg = JSON.stringify({ ...event, isRestore: true });
         context.storage.setState({ lastMsg });
-        callbacks?.onLocalMessage && callbacks.onLocalMessage(context.appId, event);
       }
     },
   };

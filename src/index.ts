@@ -133,7 +133,7 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
       const query = `userid=${userId}&role=${role}&name=${
         cursorName?.length > 0 ? cursorName : nickName
       }`;
-      // renderer.$iframe.src = appendQuery(context.storage.state.src, query);
+      renderer.$iframe.src = appendQuery(context.storage.state.src, query);
       renderer.$iframe.src = context.storage.state.src;
 
       renderer.role.set(role);
