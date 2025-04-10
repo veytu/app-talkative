@@ -37,7 +37,6 @@ export function connect({ context, logger, ...callbacks }: ConnectParams): () =>
       callbacks.postMessage(JSON.stringify({ method: "onJumpPage", toPage: page }));
     },
     onLocalMessage(event: Record<string, unknown>) {
-      console.log("onlocalmessage", context.getIsWritable());
       if (context.getIsWritable()) {
         callbacks?.onLocalMessage && callbacks.onLocalMessage(context.appId, event);
       }
@@ -50,12 +49,14 @@ export function connect({ context, logger, ...callbacks }: ConnectParams): () =>
         // save last message
         const lastMsg = JSON.stringify({ ...event, isRestore: true });
         context.storage.setState({ lastMsg });
+        callbacks?.onLocalMessage && callbacks.onLocalMessage(context.appId, event);
       }
     },
   };
 
   sideEffect.addDisposer(
     context.addMagixEventListener("broadcast", ({ payload }) => {
+      console.log(payload);
       callbacks.postMessage(payload);
     })
   );

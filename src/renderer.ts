@@ -65,6 +65,7 @@ export class Renderer {
   }
 
   postMessage(message: unknown) {
+    console.log(message);
     this.$iframe.contentWindow?.postMessage(message, "*");
   }
 }

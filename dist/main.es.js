@@ -469,23 +469,6 @@ function getUserPayload(context) {
   const cursorName = (userPayload == null ? void 0 : userPayload.cursorName) || nickName || "";
   return { memberId, uid, userId, nickName, cursorName };
 }
-function parse(url) {
-  const index = url.indexOf("?", 1);
-  if (index !== -1) {
-    return {
-      search: url.slice(index),
-      pathname: url.slice(0, index)
-    };
-  }
-  return {
-    search: "",
-    pathname: url
-  };
-}
-function appendQuery(url, query) {
-  const { pathname, search } = parse(url);
-  return pathname + (search ? `${search}&` : "?") + query;
-}
 function element(tag) {
   return document.createElement(tag);
 }
@@ -1085,6 +1068,7 @@ class Renderer {
   }
   postMessage(message) {
     var _a;
+    console.log(message);
     (_a = this.$iframe.contentWindow) == null ? void 0 : _a.postMessage(message, "*");
   }
 }
@@ -1181,7 +1165,6 @@ function connect(_a) {
       callbacks2.postMessage(JSON.stringify({ method: "onJumpPage", toPage: page }));
     },
     onLocalMessage(event) {
-      console.log("onlocalmessage", context.getIsWritable());
       if (context.getIsWritable()) {
         (callbacks2 == null ? void 0 : callbacks2.onLocalMessage) && callbacks2.onLocalMessage(context.appId, event);
       }
@@ -1191,10 +1174,12 @@ function connect(_a) {
         context.dispatchMagixEvent("broadcast", JSON.stringify(event));
         const lastMsg = JSON.stringify(__spreadProps(__spreadValues({}, event), { isRestore: true }));
         context.storage.setState({ lastMsg });
+        (callbacks2 == null ? void 0 : callbacks2.onLocalMessage) && callbacks2.onLocalMessage(context.appId, event);
       }
     }
   };
   sideEffect.addDisposer(context.addMagixEventListener("broadcast", ({ payload }) => {
+    console.log(payload);
     callbacks2.postMessage(payload);
   }));
   sideEffect.addEventListener(window, "message", (ev) => {
@@ -1305,8 +1290,8 @@ const Talkative = {
       sideEffect.addDisposer(renderer.mount());
       sideEffect.addDisposer(footer.mount());
       const role = context.storage.state.uid === uid ? 0 : 2;
-      const query = `userid=${userId}&role=${role}&name=${(cursorName == null ? void 0 : cursorName.length) > 0 ? cursorName : nickName}`;
-      renderer.$iframe.src = appendQuery(context.storage.state.src, query);
+      `userid=${userId}&role=${role}&name=${(cursorName == null ? void 0 : cursorName.length) > 0 ? cursorName : nickName}`;
+      renderer.$iframe.src = context.storage.state.src;
       renderer.role.set(role);
       footer.role.set(role);
       const { page, pageNum } = context.storage.state;
