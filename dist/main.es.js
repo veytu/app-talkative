@@ -1308,7 +1308,6 @@ const Talkative = {
       const role = context.storage.state.uid === uid ? 0 : 2;
       const query = `userid=${userId}&role=${role}&name=${(cursorName == null ? void 0 : cursorName.length) > 0 ? cursorName : nickName}`;
       renderer.$iframe.src = appendQuery(context.storage.state.src, query);
-      renderer.$iframe.src = context.storage.state.src;
       renderer.role.set(role);
       footer.role.set(role);
       const { page, pageNum } = context.storage.state;
