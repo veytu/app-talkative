@@ -29,13 +29,13 @@ export class Renderer {
   private _on_update_ratio(ratio: number, entry?: ResizeObserverEntry) {
     const { width, height } = entry ? entry.contentRect : this.$content.getBoundingClientRect();
     if (width / ratio > height) {
-      const targetWidth = height * ratio;
-      this.$iframe.style.width = `${targetWidth}px`;
+      // const targetWidth = height * ratio;
+      // this.$iframe.style.width = `${targetWidth}px`;
       this.$iframe.style.height = "";
     } else if (width / ratio < height) {
-      const targetHeight = width / ratio;
+      // const targetHeight = width / ratio;
       this.$iframe.style.width = "";
-      this.$iframe.style.height = `${targetHeight}px`;
+      // this.$iframe.style.height = `${targetHeight}px`;
     }
   }
 

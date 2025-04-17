@@ -1055,13 +1055,9 @@ class Renderer {
   _on_update_ratio(ratio, entry) {
     const { width, height: height2 } = entry ? entry.contentRect : this.$content.getBoundingClientRect();
     if (width / ratio > height2) {
-      const targetWidth = height2 * ratio;
-      this.$iframe.style.width = `${targetWidth}px`;
       this.$iframe.style.height = "";
     } else if (width / ratio < height2) {
-      const targetHeight = width / ratio;
       this.$iframe.style.width = "";
-      this.$iframe.style.height = `${targetHeight}px`;
     }
   }
   _observe_content_resize() {
