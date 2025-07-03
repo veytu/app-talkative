@@ -26,6 +26,8 @@ export interface MagixEventPayloads {
 export interface TalkativeOptions {
   debug?: boolean;
   onLocalMessage?: (appId: string, event: Record<string, unknown>) => void;
+  //抛出一个函数对象，用来接收外部传进来的消息
+  setReceivePostMessageFun?:(fun:(message:unknown)=>void)=>void
 }
 
 const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOptions> = {
@@ -41,7 +43,7 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
     const ClickThroughAppliances = new Set(["clicker"]);
 
     // const debug = (context.getAppOptions() || {}).debug;
-    const { onLocalMessage, debug } = (context.getAppOptions() || {}) as TalkativeOptions;
+    const { onLocalMessage, debug,setReceivePostMessageFun } = (context.getAppOptions() || {}) as TalkativeOptions;
     const logger = new Logger("Talkative", debug);
     const { uid, userId, nickName, cursorName } = getUserPayload(context);
     const sideEffect = new SideEffectManager();
@@ -88,7 +90,7 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
     const footer = new Footer(context, onPrevPage, onNextPage);
 
     const postMessage = renderer.postMessage.bind(renderer);
-
+    setReceivePostMessageFun?.(postMessage)
     sideEffect.addDisposer(
       connect({
         context,

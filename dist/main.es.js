@@ -1,39 +1,14 @@
 var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
 };
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var __objRest = (source, exclude) => {
-  var target = {};
-  for (var prop in source)
-    if (__hasOwnProp.call(source, prop) && exclude.indexOf(prop) < 0)
-      target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum.call(source, prop))
-        target[prop] = source[prop];
-    }
-  return target;
-};
-const SOUP = "!#%()*+,-./:;=?@[]^_`{|}~ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-const SOUP_LEN = 87;
-const ID_LEN = 20;
-const reusedIdCarrier = [];
-const genUID = () => {
+var SOUP = "!#%()*+,-./:;=?@[]^_`{|}~ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+var SOUP_LEN = 87;
+var ID_LEN = 20;
+var reusedIdCarrier = [];
+var genUID = () => {
   for (let i = 0; i < ID_LEN; i++) {
     reusedIdCarrier[i] = SOUP.charAt(Math.random() * SOUP_LEN);
   }
@@ -46,14 +21,17 @@ function invoke(fn) {
     console.error(e);
   }
 }
-class SideEffectManager {
+var SideEffectManager = class {
   constructor() {
     this.push = this.addDisposer;
     this.disposers = /* @__PURE__ */ new Map();
   }
   addDisposer(disposer, disposerID = this.genUID()) {
     this.flush(disposerID);
-    this.disposers.set(disposerID, Array.isArray(disposer) ? joinDisposers(disposer) : disposer);
+    this.disposers.set(
+      disposerID,
+      Array.isArray(disposer) ? joinDisposers(disposer) : disposer
+    );
     return disposerID;
   }
   add(executor, disposerID = this.genUID()) {
@@ -62,7 +40,10 @@ class SideEffectManager {
   }
   addEventListener(el, type, listener, options, disposerID = this.genUID()) {
     el.addEventListener(type, listener, options);
-    this.addDisposer(() => el.removeEventListener(type, listener, options), disposerID);
+    this.addDisposer(
+      () => el.removeEventListener(type, listener, options),
+      disposerID
+    );
     return disposerID;
   }
   setTimeout(handler, timeout, disposerID = this.genUID()) {
@@ -98,7 +79,7 @@ class SideEffectManager {
     } while (this.disposers.has(uid));
     return uid;
   }
-}
+};
 function joinDisposers(disposers) {
   return () => disposers.forEach(invoke);
 }
@@ -323,14 +304,46 @@ var randomColor$1 = { exports: {} };
       };
     }
     function loadColorBounds() {
-      defineColor("monochrome", null, [[0, 0], [100, 0]]);
-      defineColor("red", [-26, 18], [[20, 100], [30, 92], [40, 89], [50, 85], [60, 78], [70, 70], [80, 60], [90, 55], [100, 50]]);
-      defineColor("orange", [18, 46], [[20, 100], [30, 93], [40, 88], [50, 86], [60, 85], [70, 70], [100, 70]]);
-      defineColor("yellow", [46, 62], [[25, 100], [40, 94], [50, 89], [60, 86], [70, 84], [80, 82], [90, 80], [100, 75]]);
-      defineColor("green", [62, 178], [[30, 100], [40, 90], [50, 85], [60, 81], [70, 74], [80, 64], [90, 50], [100, 40]]);
-      defineColor("blue", [178, 257], [[20, 100], [30, 86], [40, 80], [50, 74], [60, 60], [70, 52], [80, 44], [90, 39], [100, 35]]);
-      defineColor("purple", [257, 282], [[20, 100], [30, 87], [40, 79], [50, 70], [60, 65], [70, 59], [80, 52], [90, 45], [100, 42]]);
-      defineColor("pink", [282, 334], [[20, 100], [30, 90], [40, 86], [60, 84], [80, 80], [90, 75], [100, 73]]);
+      defineColor(
+        "monochrome",
+        null,
+        [[0, 0], [100, 0]]
+      );
+      defineColor(
+        "red",
+        [-26, 18],
+        [[20, 100], [30, 92], [40, 89], [50, 85], [60, 78], [70, 70], [80, 60], [90, 55], [100, 50]]
+      );
+      defineColor(
+        "orange",
+        [18, 46],
+        [[20, 100], [30, 93], [40, 88], [50, 86], [60, 85], [70, 70], [100, 70]]
+      );
+      defineColor(
+        "yellow",
+        [46, 62],
+        [[25, 100], [40, 94], [50, 89], [60, 86], [70, 84], [80, 82], [90, 80], [100, 75]]
+      );
+      defineColor(
+        "green",
+        [62, 178],
+        [[30, 100], [40, 90], [50, 85], [60, 81], [70, 74], [80, 64], [90, 50], [100, 40]]
+      );
+      defineColor(
+        "blue",
+        [178, 257],
+        [[20, 100], [30, 86], [40, 80], [50, 74], [60, 60], [70, 52], [80, 44], [90, 39], [100, 35]]
+      );
+      defineColor(
+        "purple",
+        [257, 282],
+        [[20, 100], [30, 87], [40, 79], [50, 70], [60, 65], [70, 59], [80, 52], [90, 45], [100, 42]]
+      );
+      defineColor(
+        "pink",
+        [282, 334],
+        [[20, 100], [30, 90], [40, 86], [60, 84], [80, 80], [90, 75], [100, 73]]
+      );
     }
     function HSVtoRGB(hsv) {
       var h = hsv[0];
@@ -434,9 +447,11 @@ var randomColor$1 = { exports: {} };
 var randomColor = randomColor$1.exports;
 class Logger {
   constructor(kind = "NetlessApp", debug = "error") {
+    __publicField(this, "kind");
+    __publicField(this, "debug");
+    __publicField(this, "color", randomColor({ luminosity: "dark" }));
     this.kind = kind;
     this.debug = debug;
-    this.color = randomColor({ luminosity: "dark" });
   }
   log(...messages) {
     if (this.debug === true || this.debug === "log") {
@@ -462,7 +477,9 @@ function getUserPayload(context) {
   const room = context.getRoom();
   const displayer = context.getDisplayer();
   const memberId = displayer.observerId;
-  const userPayload = (_a = displayer.state.roomMembers.find((member) => member.memberId === memberId)) == null ? void 0 : _a.payload;
+  const userPayload = (_a = displayer.state.roomMembers.find(
+    (member) => member.memberId === memberId
+  )) == null ? void 0 : _a.payload;
   const uid = (userPayload == null ? void 0 : userPayload.uid) || (room == null ? void 0 : room.uid) || "";
   const nickName = (userPayload == null ? void 0 : userPayload.nickName) || uid;
   const userId = (userPayload == null ? void 0 : userPayload.userId) || uid;
@@ -598,11 +615,11 @@ var isHidden = function(target) {
   return !(offsetWidth || offsetHeight || target.getClientRects().length);
 };
 var isElement = function(obj) {
-  var _a, _b;
+  var _a;
   if (obj instanceof Element) {
     return true;
   }
-  var scope = (_b = (_a = obj) === null || _a === void 0 ? void 0 : _a.ownerDocument) === null || _b === void 0 ? void 0 : _b.defaultView;
+  var scope = (_a = obj === null || obj === void 0 ? void 0 : obj.ownerDocument) === null || _a === void 0 ? void 0 : _a.defaultView;
   return !!(scope && obj instanceof scope.Element);
 };
 var isReplacedElement = function(target) {
@@ -799,7 +816,7 @@ var queueMicroTask = function(callback) {
       return notify();
     }).observe(el_1, config);
     trigger = function() {
-      el_1.textContent = "" + (toggle_1 ? toggle_1-- : toggle_1++);
+      el_1.textContent = "".concat(toggle_1 ? toggle_1-- : toggle_1++);
     };
   }
   callbacks.push(callback);
@@ -1033,7 +1050,7 @@ var ResizeObserver$2 = function() {
   };
   return ResizeObserver2;
 }();
-var styles = /* @__PURE__ */ (() => ".app-talkative-container{width:100%;height:100%;overflow:hidden;display:flex;justify-content:center;align-items:center;flex-direction:column}.app-talkative-container iframe{width:100%;height:100%;border:none;display:block}.app-talkative-footer{box-sizing:border-box;height:40px;display:flex;align-items:center;padding:0 16px;color:#191919;background:#ebecfa;justify-content:center}.app-talkative-footer>span{font-size:14px;color:#8d8fa6;user-select:none;white-space:nowrap;word-break:keep-all}.app-talkative-page{font-variant-numeric:tabular-nums}.app-talkative-btn{box-sizing:border-box;width:26px;height:26px;font-size:0;margin:0;padding:3px;border:none;border-radius:4px;outline:none;color:currentColor;background:transparent;transition:background .4s;cursor:pointer;user-select:none;-webkit-tap-highlight-color:rgba(0,0,0,0);color:#8d8fa6}.app-talkative-btn:hover{background-color:#1b1f4d0a}@media (hover: none){.app-talkative-btn:hover{background:transparent!important}}.app-talkative-btn .arrow{fill:#8d8fa6}.app-talkative-btn>svg{width:100%;height:100%}.app-talkative-btn>svg:nth-of-type(2){display:none}.app-talkative-footer-btn-disable{color:#c6c7d2;cursor:not-allowed}.app-talkative-footer-btn-disable .arrow{fill:#c6c7d2}.telebox-color-scheme-dark .app-talkative-container{color:#eee}\n")();
+var styles = ".app-talkative-container{width:100%;height:100%;overflow:hidden;display:flex;justify-content:center;align-items:center;flex-direction:column}.app-talkative-container iframe{width:100%;height:100%;border:none;display:block}.app-talkative-footer{box-sizing:border-box;height:40px;display:flex;align-items:center;padding:0 16px;color:#191919;background:#ebecfa;justify-content:center}.app-talkative-footer>span{font-size:14px;color:#8d8fa6;user-select:none;white-space:nowrap;word-break:keep-all}.app-talkative-page{font-variant-numeric:tabular-nums}.app-talkative-btn{box-sizing:border-box;width:26px;height:26px;font-size:0;margin:0;padding:3px;border:none;border-radius:4px;outline:none;color:currentColor;background:transparent;transition:background .4s;cursor:pointer;user-select:none;-webkit-tap-highlight-color:rgba(0,0,0,0);color:#8d8fa6}.app-talkative-btn:hover{background-color:#1b1f4d0a}@media (hover: none){.app-talkative-btn:hover{background:transparent!important}}.app-talkative-btn .arrow{fill:#8d8fa6}.app-talkative-btn>svg{width:100%;height:100%}.app-talkative-btn>svg:nth-of-type(2){display:none}.app-talkative-footer-btn-disable{color:#c6c7d2;cursor:not-allowed}.app-talkative-footer-btn-disable .arrow{fill:#c6c7d2}.telebox-color-scheme-dark .app-talkative-container{color:#eee}\n";
 const ResizeObserver$1 = window.ResizeObserver || ResizeObserver$2;
 class Renderer {
   constructor(context) {
@@ -1159,8 +1176,7 @@ class Footer {
     detach(this.$footer);
   }
 }
-function connect(_a) {
-  var _b = _a, { context, logger } = _b, callbacks2 = __objRest(_b, ["context", "logger"]);
+function connect({ context, logger, ...callbacks2 }) {
   const sideEffect = new SideEffectManager();
   const handlers = {
     onPagenum({ totalPages }) {
@@ -1185,15 +1201,17 @@ function connect(_a) {
     onFileMessage(event) {
       if (context.getIsWritable()) {
         context.dispatchMagixEvent("broadcast", JSON.stringify(event));
-        const lastMsg = JSON.stringify(__spreadProps(__spreadValues({}, event), { isRestore: true }));
+        const lastMsg = JSON.stringify({ ...event, isRestore: true });
         context.storage.setState({ lastMsg });
       }
     }
   };
-  sideEffect.addDisposer(context.addMagixEventListener("broadcast", ({ payload }) => {
-    console.log(payload);
-    callbacks2.postMessage(payload);
-  }));
+  sideEffect.addDisposer(
+    context.addMagixEventListener("broadcast", ({ payload }) => {
+      console.log(payload);
+      callbacks2.postMessage(payload);
+    })
+  );
   sideEffect.addEventListener(window, "message", (ev) => {
     if (!callbacks2.isSentBySelf(ev.source))
       return;
@@ -1229,7 +1247,7 @@ const Talkative = {
       lastMsg: ""
     });
     const ClickThroughAppliances = /* @__PURE__ */ new Set(["clicker"]);
-    const { onLocalMessage, debug } = context.getAppOptions() || {};
+    const { onLocalMessage, debug, setReceivePostMessageFun } = context.getAppOptions() || {};
     const logger = new Logger("Talkative", debug);
     const { uid, userId, nickName, cursorName } = getUserPayload(context);
     const sideEffect = new SideEffectManager();
@@ -1271,22 +1289,27 @@ const Talkative = {
     const renderer = new Renderer(context);
     const footer = new Footer(context, onPrevPage, onNextPage);
     const postMessage = renderer.postMessage.bind(renderer);
-    sideEffect.addDisposer(connect({
-      context,
-      logger,
-      postMessage,
-      onRatioChanged: renderer.ratio.set.bind(renderer.ratio),
-      isSentBySelf: (source) => source === renderer.$iframe.contentWindow,
-      onLocalMessage
-    }));
-    sideEffect.addDisposer(context.storage.addStateChangedListener(() => {
-      const role = context.storage.state.uid === uid ? 0 : 2;
-      renderer.role.set(role);
-      footer.role.set(role);
-      const { page, pageNum } = context.storage.state;
-      postMessage(JSON.stringify({ method: "onJumpPage", toPage: page }));
-      footer.text.set(`${page}/${pageNum}`);
-    }));
+    setReceivePostMessageFun == null ? void 0 : setReceivePostMessageFun(postMessage);
+    sideEffect.addDisposer(
+      connect({
+        context,
+        logger,
+        postMessage,
+        onRatioChanged: renderer.ratio.set.bind(renderer.ratio),
+        isSentBySelf: (source) => source === renderer.$iframe.contentWindow,
+        onLocalMessage
+      })
+    );
+    sideEffect.addDisposer(
+      context.storage.addStateChangedListener(() => {
+        const role = context.storage.state.uid === uid ? 0 : 2;
+        renderer.role.set(role);
+        footer.role.set(role);
+        const { page, pageNum } = context.storage.state;
+        postMessage(JSON.stringify({ method: "onJumpPage", toPage: page }));
+        footer.text.set(`${page}/${pageNum}`);
+      })
+    );
     if (room) {
       sideEffect.add(() => {
         const onRoomStateChanged = (e) => {
@@ -1341,12 +1364,14 @@ const Talkative = {
       }
     };
     if (!context.storage.state.uid) {
-      const disposerID = sideEffect.addDisposer(context.storage.addStateChangedListener(() => {
-        if (context.storage.state.uid) {
-          sideEffect.flush(disposerID);
-          on_ready();
-        }
-      }));
+      const disposerID = sideEffect.addDisposer(
+        context.storage.addStateChangedListener(() => {
+          if (context.storage.state.uid) {
+            sideEffect.flush(disposerID);
+            on_ready();
+          }
+        })
+      );
       if (context.isAddApp) {
         logger.log("no teacher's uid, setting myself...");
         context.storage.setState({ uid });
