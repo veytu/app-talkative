@@ -29,7 +29,7 @@ export interface TalkativeOptions {
   //抛出一个函数对象，用来接收外部传进来的消息
   setReceivePostMessageFun?:(fun:(message:unknown)=>void)=>void;
   //同步数据获取
-  getInfoSync?:(configInfo:string) => unknown;
+  getInfoSync?:(configInfo:string) => Promise<unknown>;
 }
 
 const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOptions> = {
@@ -129,14 +129,14 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
       });
     }
 
-    const on_ready = () => {
+    const on_ready = async () => {
       sideEffect.addDisposer(renderer.mount());
       sideEffect.addDisposer(footer.mount());
 
       const role = context.storage.state.uid === uid ? 0 : 2;
 
       //url额外的拼接参数
-      const params = getInfoSync?.(JSON.stringify({method:"getTalkActiveUrlParams"}))
+      const params = await getInfoSync?.(JSON.stringify({method:"getTalkActiveUrlParams"}))
 
       const query = `userid=${userId}&role=${role}&name=${
         cursorName?.length > 0 ? cursorName : nickName

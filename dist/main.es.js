@@ -1321,11 +1321,11 @@ const Talkative = {
         return () => room.callbacks.off("onRoomStateChanged", onRoomStateChanged);
       });
     }
-    const on_ready = () => {
+    const on_ready = async () => {
       sideEffect.addDisposer(renderer.mount());
       sideEffect.addDisposer(footer.mount());
       const role = context.storage.state.uid === uid ? 0 : 2;
-      const params = getInfoSync == null ? void 0 : getInfoSync(JSON.stringify({ method: "getTalkActiveUrlParams" }));
+      const params = await (getInfoSync == null ? void 0 : getInfoSync(JSON.stringify({ method: "getTalkActiveUrlParams" })));
       const query = `userid=${userId}&role=${role}&name=${(cursorName == null ? void 0 : cursorName.length) > 0 ? cursorName : nickName}${params}`;
       renderer.$iframe.src = appendQuery(context.storage.state.src, query);
       renderer.role.set(role);
