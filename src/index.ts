@@ -27,7 +27,9 @@ export interface TalkativeOptions {
   debug?: boolean;
   onLocalMessage?: (appId: string, event: Record<string, unknown>) => void;
   //抛出一个函数对象，用来接收外部传进来的消息
-  setReceivePostMessageFun?:(fun:(message:unknown)=>void)=>void
+  setReceivePostMessageFun?:(fun:(message:unknown)=>void)=>void;
+  //同步数据获取
+  getInfoSync?:(configInfo:string) => unknown;
 }
 
 const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOptions> = {
@@ -43,7 +45,7 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
     const ClickThroughAppliances = new Set(["clicker"]);
 
     // const debug = (context.getAppOptions() || {}).debug;
-    const { onLocalMessage, debug,setReceivePostMessageFun } = (context.getAppOptions() || {}) as TalkativeOptions;
+    const { onLocalMessage, debug,setReceivePostMessageFun,getInfoSync } = (context.getAppOptions() || {}) as TalkativeOptions;
     const logger = new Logger("Talkative", debug);
     const { uid, userId, nickName, cursorName } = getUserPayload(context);
     const sideEffect = new SideEffectManager();
@@ -133,9 +135,12 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
 
       const role = context.storage.state.uid === uid ? 0 : 2;
 
+      //url额外的拼接参数
+      const params = getInfoSync?.(JSON.stringify({method:"getTalkActiveUrlParams"}))
+
       const query = `userid=${userId}&role=${role}&name=${
         cursorName?.length > 0 ? cursorName : nickName
-      }`;
+      }${params}`;
 
       renderer.$iframe.src = appendQuery(context.storage.state.src, query);
 

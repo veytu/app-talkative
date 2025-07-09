@@ -17,6 +17,7 @@ export interface TalkativeOptions {
     debug?: boolean;
     onLocalMessage?: (appId: string, event: Record<string, unknown>) => void;
     setReceivePostMessageFun?: (fun: (message: unknown) => void) => void;
+    getInfoSync?: (configInfo: string) => unknown;
 }
 declare const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOptions>;
 export default Talkative;
