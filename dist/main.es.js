@@ -1249,7 +1249,7 @@ const Talkative = {
     const ClickThroughAppliances = /* @__PURE__ */ new Set(["clicker"]);
     const { onLocalMessage, debug, setReceivePostMessageFun, getInfoSync } = context.getAppOptions() || {};
     const logger = new Logger("Talkative", debug);
-    const { uid, userId, nickName, cursorName } = getUserPayload(context);
+    const { uid } = getUserPayload(context);
     const sideEffect = new SideEffectManager();
     const view = context.getView();
     const room = context.getRoom();
@@ -1325,8 +1325,10 @@ const Talkative = {
       sideEffect.addDisposer(renderer.mount());
       sideEffect.addDisposer(footer.mount());
       const role = context.storage.state.uid === uid ? 0 : 2;
-      const params = await (getInfoSync == null ? void 0 : getInfoSync(JSON.stringify({ method: "getTalkActiveUrlParams" })));
-      const query = `userid=${userId}&role=${role}&name=${(cursorName == null ? void 0 : cursorName.length) > 0 ? cursorName : nickName}${params}`;
+      const method = JSON.stringify({ method: "getTalkActiveUrlParams" });
+      const params = await (getInfoSync == null ? void 0 : getInfoSync(method));
+      console.log("talkativeGetInfoSyncValue111", params);
+      const query = `${params}`;
       renderer.$iframe.src = appendQuery(context.storage.state.src, query);
       renderer.role.set(role);
       footer.role.set(role);

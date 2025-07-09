@@ -29,7 +29,7 @@ export interface TalkativeOptions {
   //抛出一个函数对象，用来接收外部传进来的消息
   setReceivePostMessageFun?:(fun:(message:unknown)=>void)=>void;
   //同步数据获取
-  getInfoSync?:(configInfo:string) => Promise<unknown>;
+  getInfoSync?:(configInfo:string) => unknown;
 }
 
 const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOptions> = {
@@ -47,7 +47,7 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
     // const debug = (context.getAppOptions() || {}).debug;
     const { onLocalMessage, debug,setReceivePostMessageFun,getInfoSync } = (context.getAppOptions() || {}) as TalkativeOptions;
     const logger = new Logger("Talkative", debug);
-    const { uid, userId, nickName, cursorName } = getUserPayload(context);
+    const { uid } = getUserPayload(context);
     const sideEffect = new SideEffectManager();
     const view = context.getView();
     const room = context.getRoom();
@@ -135,12 +135,12 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
 
       const role = context.storage.state.uid === uid ? 0 : 2;
 
+      const method = JSON.stringify({method:"getTalkActiveUrlParams"})
       //url额外的拼接参数
-      const params = await getInfoSync?.(JSON.stringify({method:"getTalkActiveUrlParams"}))
+      const params = await getInfoSync?.(method)
+      console.log('talkativeGetInfoSyncValue111', params)
 
-      const query = `userid=${userId}&role=${role}&name=${
-        cursorName?.length > 0 ? cursorName : nickName
-      }${params}`;
+      const query = `${params}`;
 
       renderer.$iframe.src = appendQuery(context.storage.state.src, query);
 
@@ -166,7 +166,7 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
         sideEffect.add(() => {
           const onResize = () => {
             const clientRect = renderer.$content.getBoundingClientRect();
-            const scale = clientRect.height / height;
+            const scale = clientRect.height /height;
             view.moveCamera({ scale, animationMode: "immediately" as AnimationMode });
           };
           const observer = new ResizeObserver(onResize);
