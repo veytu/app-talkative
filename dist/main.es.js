@@ -1236,9 +1236,20 @@ function connect({ context, logger, ...callbacks2 }) {
   return sideEffect.flushAll.bind(sideEffect);
 }
 const height = 350;
+const version = "0.1.93.wukongBeta.0";
 const Talkative = {
   kind: "Talkative",
   setup(context) {
+    console.log("SDK \u7248\u672C\u4FE1\u606F-App App Talkative ", version);
+    const versionElement = document.createElement("div");
+    versionElement.style.position = "absolute";
+    versionElement.style.top = "260px";
+    versionElement.style.left = "0";
+    versionElement.style.color = "red";
+    versionElement.style.fontSize = "12px";
+    versionElement.style.zIndex = "99999";
+    versionElement.innerHTML = `SDK \u7248\u672C\u4FE1\u606F-App App Talkative ${version}`;
+    document.body.appendChild(versionElement);
     context.storage.ensureState({
       src: "https://example.org",
       uid: "",
@@ -1327,9 +1338,11 @@ const Talkative = {
       const role = context.storage.state.uid === uid ? 0 : 2;
       const method = JSON.stringify({ method: "getTalkActiveUrlParams" });
       const params = await (getInfoSync == null ? void 0 : getInfoSync(method));
-      console.log("talkativeGetInfoSyncValue111", params);
-      const query = `${params}`;
-      renderer.$iframe.src = appendQuery(context.storage.state.src, query);
+      console.log("talkativeGetInfoSyncValue1", params);
+      console.log("talkativeGetInfoSyncValue2", context.storage.state.src);
+      console.log("talkativeGetInfoSyncValue3", parse(context.storage.state.src));
+      console.log("talkativeGetInfoSyncValue4", appendQuery(context.storage.state.src, `${params}`));
+      renderer.$iframe.src = appendQuery(context.storage.state.src, `${params}`);
       renderer.role.set(role);
       footer.role.set(role);
       const { page, pageNum } = context.storage.state;
@@ -1388,5 +1401,5 @@ const Talkative = {
     });
   }
 };
-export { Talkative as default };
+export { Talkative as default, version };
 //# sourceMappingURL=main.es.js.map

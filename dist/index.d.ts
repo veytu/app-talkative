@@ -1,4 +1,5 @@
 import type { NetlessApp } from "@netless/window-manager";
+export declare const version: string;
 export interface TalkativeAttributes {
     /** (required) courseware url */
     src: string;

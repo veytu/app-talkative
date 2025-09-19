@@ -1,11 +1,12 @@
 import type { AnimationMode, NetlessApp } from "@netless/window-manager";
 import { Logger } from "@netless/app-shared";
 import { SideEffectManager } from "side-effect-manager";
-import { appendQuery, getUserPayload, nextTick } from "./utils";
+import { appendQuery, getUserPayload, nextTick, parse } from "./utils";
 import { Renderer } from "./renderer";
 import { Footer } from "./footer";
 import { connect } from "./connect";
 import { height } from "./hardcode";
+export const version = __APP_VERSION__;
 
 export interface TalkativeAttributes {
   /** (required) courseware url */
@@ -35,6 +36,18 @@ export interface TalkativeOptions {
 const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOptions> = {
   kind: "Talkative",
   setup(context) {
+    console.log("SDK 版本信息-App App Talkative " , version);
+    //todo 测试代码，打印版本信息到根节点上显示,后面要注释掉，方便调试，当前的显示左上角垂直偏移260
+    const versionElement = document.createElement("div");
+    versionElement.style.position = "absolute";
+    versionElement.style.top = "260px";
+    versionElement.style.left = "0";
+    versionElement.style.color = "red";
+    versionElement.style.fontSize = "12px";
+    versionElement.style.zIndex = "99999";
+    versionElement.innerHTML = `SDK 版本信息-App App Talkative ${version}`;
+    document.body.appendChild(versionElement);
+    
     context.storage.ensureState({
       src: "https://example.org",
       uid: "",
@@ -138,11 +151,12 @@ const Talkative: NetlessApp<TalkativeAttributes, MagixEventPayloads, TalkativeOp
       const method = JSON.stringify({method:"getTalkActiveUrlParams"})
       //url额外的拼接参数
       const params = await getInfoSync?.(method)
-      console.log('talkativeGetInfoSyncValue111', params)
+      console.log('talkativeGetInfoSyncValue1', params)
+      console.log('talkativeGetInfoSyncValue2', context.storage.state.src)
+      console.log('talkativeGetInfoSyncValue3', parse(context.storage.state.src))
+      console.log('talkativeGetInfoSyncValue4', appendQuery(context.storage.state.src, `${params}`))
 
-      const query = `${params}`;
-
-      renderer.$iframe.src = appendQuery(context.storage.state.src, query);
+      renderer.$iframe.src = appendQuery(context.storage.state.src, `${params}`);
 
       renderer.role.set(role);
       footer.role.set(role);
