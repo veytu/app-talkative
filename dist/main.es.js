@@ -1236,7 +1236,7 @@ function connect({ context, logger, ...callbacks2 }) {
   return sideEffect.flushAll.bind(sideEffect);
 }
 const height = 350;
-const version = "0.1.93.wukongBeta.0";
+const version = "0.1.93-wukongBeta.1";
 const Talkative = {
   kind: "Talkative",
   setup(context) {
